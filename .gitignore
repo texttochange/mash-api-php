@@ -1,0 +1,10 @@
+# User files
+
+# System files
+.project
+.pydevproject
+.DS_Store
+.vagrant
+
+# Other
+resources_local

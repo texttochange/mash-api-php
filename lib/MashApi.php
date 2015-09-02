@@ -60,51 +60,39 @@ class MashApi {
    * API endpoint.
    * Gets participants from MASH.
    * 
-   * @param array $payload
-   *  Request parameters as specified in the documentation.
+   * @param array $country
    * 
-   * Gets a list of respondents.
    */
-  public function getParticipants($payload) {
+  public function getParticipants($country) {
+    $payload = array('country' => $country);
     return $this->connection->doRequest('/participants', 'GET', $payload);
   }
   
+  public function countParticipants($country) {
+    $payload = array(
+      'country' => $country,
+      'query_type' => 'count');
+    return $this->connection->doRequest('/participants', 'GET', $payload);
+  }
+
+
+  public function importParticipants($country, $programId) {
+    $payload = array(
+      'country' => $country,
+      'program_id' => $programId,
+      'event' => 'import');
+    return $this->connection->doRequest('/participants', 'PUT', $payload);
+  }
+
   /**
    * API endpoint.
    * Gets a specific participant from MASH.
    * 
    * @param string $uuid
-   *  The participant id.
+   *  The participant id or phone number
    */
   public function getParticipant($uuid) {
     return $this->connection->doRequest('/participants/' . $uuid, 'GET');
   }
-  
-  /**
-   * API endpoint.
-   * Adds an usage to a participant.
-   * 
-   * @param string $uuid
-   *  The participant id.
-   * 
-   * @param array $payload
-   *  Request parameters as specified in the documentation.
-   */
-  public function addUsage($uuid, $payload) {
-    return $this->connection->doRequest('/participants/' . $uuid . '/usages', 'POST', $payload);
-  }
-  
-  /**
-   * API endpoint.
-   * Removes an usage from a participant.
-   * 
-   * @param string $uuid
-   *  The participant id.
-   * 
-   * @param array $payload
-   *  Request parameters as specified in the documentation.
-   */
-  public function removeUsage($uuid, $payload) {
-    return $this->connection->doRequest('/participants/' . $uuid . '/usages', 'DELETE', $payload);
-  }
+    
 }

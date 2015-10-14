@@ -155,13 +155,15 @@ class MashApiConnection {
    *   Request parameters.
    */
   public function doRequest($url, $method = 'GET', $payload = array()) {
-    $url = $this->URL . $url;    
+    $url = $this->URL . $url;
     $this->reset();
 
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($curl, CURLOPT_HTTPHEADER, $this->headers);
-    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
+    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 4);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 
     switch ($method) {
       case 'POST' :
@@ -187,7 +189,6 @@ class MashApiConnection {
     curl_setopt($curl, CURLOPT_URL, $url);
 
     $api_response = curl_exec($curl);
-
     $this->request_error = array(
       'error' => curl_error($curl),
       'no' => curl_errno($curl)

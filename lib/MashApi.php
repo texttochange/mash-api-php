@@ -79,8 +79,8 @@ class MashApi {
   public function importParticipants($country, $programId) {
     $payload = array(
       'country' => $country,
-      'program_id' => $programId,
-      'event' => 'import');
+      'pid' => $programId,
+      'event' => 'imported');
     return $this->connection->doRequest('/participants', 'PUT', $payload);
   }
 
